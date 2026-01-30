@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { LayoutDashboard, Plane, LogOut, Settings, PlusCircle } from "lucide-react";
+import { LayoutDashboard, Plane, LogOut, Settings, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
@@ -12,6 +12,7 @@ export function Sidebar() {
     { icon: LayoutDashboard, label: "Dashboard", href: "/" },
     { icon: Plane, label: "Active Deals", href: "/active" }, // Filtered view placeholder
     { icon: Settings, label: "Settings", href: "/settings" },
+    { icon: Search, label: "Explore", href: "/explorer" },
   ];
 
   return (

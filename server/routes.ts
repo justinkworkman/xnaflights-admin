@@ -32,6 +32,36 @@ export async function registerRoutes(
       console.error("Error processing social card request:", error);
       res.status(500).json({ message: "Internal server error" });
     }});
+
+  app.post("/api/search-deals", async (req, res) => {
+    try {
+      const { destination, departureDate, returnDate } = req.body;
+
+      // Call external travel API to search for deals
+      const token = process.env.TRAVEL_API_TOKEN || "demo_token";
+      const city = destination.split(',')[0].trim();
+      const origin = 'XNA'; // Assuming XNA is the origin airport code
+      const month = departureDate.split('-').slice(0, 2).join('-');
+      const returnMonth = returnDate.split('-').slice(0, 2).join('-');
+      // For demonstration, return mock data
+      const url = `https://api.travelpayouts.com/aviasales/v3/prices_for_dates?` +
+          `currency=usd&origin=${origin}&destination=${city}` +
+          `&departure_at=${month}&return_at=${returnMonth}` +
+          `&unique=false&sorting=price&direct=false&cy=usd&limit=30&page=1` +
+          `&one_way=true&token=${token}`;
+  
+        const response = await fetch(url, {
+          method: "GET",
+          headers: { "X-Access-Token": token }
+        });
+  
+        const json = await response.json();
+      res.status(200).json(json);
+    } catch (error) {
+      console.error("Error searching deals:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
   // app.get(api.deals.list.path, async (req, res) => {
   //   const deals = await storage.getDeals();
   //   res.json(deals);
