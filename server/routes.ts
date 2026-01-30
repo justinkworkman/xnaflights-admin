@@ -12,7 +12,6 @@ export async function registerRoutes(
     try {
       
       // Process the request here (e.g., generate the social card)
-      console.log("Received social card data:", req.body);
       fetch('https://ag80gw0g88g8cowk8okcgo8c.xnaflights.com/social-card-minio', {
         method: 'POST',
         headers: {

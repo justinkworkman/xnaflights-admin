@@ -34,7 +34,7 @@ export function ImageDialog({ mode, deal, trigger }: ImageDialogProps) {
         const postBody = {
             title: values.title,
             eyebrow: values.eyebrow,
-            background: deal.imageUrl,
+            background: values.background,
             airport: deal.airport,
             price: deal.price,
             dates: `${new Date(deal.departureDate).toLocaleDateString('en-US', {month: 'short', day:'numeric'})} - ${new Date(deal.returnDate).toLocaleDateString('en-US', {month: 'short', day:'numeric'})}`,

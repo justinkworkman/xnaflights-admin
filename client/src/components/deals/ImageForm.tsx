@@ -54,7 +54,7 @@ export function ImageForm({ defaultValues, onSubmit, isSubmitting }: ImageFormPr
               <FormItem>
                 <FormLabel>Country or State</FormLabel>
                 <FormControl>
-                  <Input placeholder="e.g. France" {...field} value={field.value ?? ""} />
+                  <Input placeholder="e.g. France" {...field} value={field.value ?? ""} onChange={(e) => field.onChange(e.target.value)} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
