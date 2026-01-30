@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Plus, Pencil } from "lucide-react";
-import { DealForm } from "./DealForm";
 import { useCreateDeal, useUpdateDeal } from "@/hooks/use-deals";
 import type { Deal } from "@shared/schema";
 import { ImageForm } from "./ImageForm";
@@ -33,12 +32,13 @@ export function ImageDialog({ mode, deal, trigger }: ImageDialogProps) {
         console.log(deal)
         //post to image creation api
         const postBody = {
-            title: deal.destination,
-            eyebrow: deal.destination,
+            title: values.title,
+            eyebrow: values.eyebrow,
             background: deal.imageUrl,
             airport: deal.airport,
             price: deal.price,
             dates: `${new Date(deal.departureDate).toLocaleDateString('en-US', {month: 'short', day:'numeric'})} - ${new Date(deal.returnDate).toLocaleDateString('en-US', {month: 'short', day:'numeric'})}`,
+            backgroundSize: values.backgroundSize,
         }
         await fetch('/api/create-social-card', {
           method: 'POST',
