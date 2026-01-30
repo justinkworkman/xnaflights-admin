@@ -24,6 +24,7 @@ export function ImageForm({ defaultValues, onSubmit, isSubmitting }: ImageFormPr
       dates: defaultValues?.dates || "Mar 3–10",
       airport: defaultValues?.airport || "CDG",
       airline: defaultValues?.airline || "Air France",
+      backgroundSize: defaultValues?.backgroundSize || "150",
       background: defaultValues?.background || "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=2000&auto=format&fit=crop"
     },
     mode: "onBlur",
@@ -53,7 +54,7 @@ export function ImageForm({ defaultValues, onSubmit, isSubmitting }: ImageFormPr
               <FormItem>
                 <FormLabel>Country or State</FormLabel>
                 <FormControl>
-                  <Input placeholder="e.g. France" {...field} />
+                  <Input placeholder="e.g. France" {...field} value={field.value ?? ""} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -109,7 +110,20 @@ export function ImageForm({ defaultValues, onSubmit, isSubmitting }: ImageFormPr
               <FormItem>
                 <FormLabel>Dates</FormLabel>
                 <FormControl>
-                  <Input type="text" {...field} />
+                  <Input type="text" {...field} value={field.value ?? ""} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="backgroundSize"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Background Size</FormLabel>
+                <FormControl>
+                  <Input type="text" {...field} value={field.value ?? ""} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -126,7 +140,7 @@ export function ImageForm({ defaultValues, onSubmit, isSubmitting }: ImageFormPr
               <FormItem>
                 <FormLabel>Background Image URL</FormLabel>
                 <FormControl>
-                  <Input type="text" {...field} />
+                  <Input type="text" {...field} value={field.value ?? ""} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

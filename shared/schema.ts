@@ -31,6 +31,7 @@ export type DealImage = {
   price: number;
   route?: string;
   background: string;
+  backgroundSize?: string;
   dates: string;
   airport: string;
   airline?: string;
