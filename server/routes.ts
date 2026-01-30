@@ -12,7 +12,7 @@ export async function registerRoutes(
     try {
       
       // Process the request here (e.g., generate the social card)
-      fetch('https://ag80gw0g88g8cowk8okcgo8c.xnaflights.com/social-card-minio', {
+      const fres = await fetch('https://ag80gw0g88g8cowk8okcgo8c.xnaflights.com/social-card-minio', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -20,7 +20,8 @@ export async function registerRoutes(
         body: JSON.stringify(req.body),
       });
       // Respond with success
-      res.status(200).json({ message: "Social card created successfully" });
+      const response = await fres.json();
+      res.status(200).json(response);
     } catch (error) {
       if (error instanceof z.ZodError) {
         return res.status(400).json({

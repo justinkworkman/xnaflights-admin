@@ -15,6 +15,7 @@ export function Sidebar() {
   ];
 
   return (
+    <>
     <aside className="w-64 h-screen bg-card border-r border-border fixed left-0 top-0 hidden md:flex flex-col z-20 shadow-2xl">
       <div className="p-8 pb-4">
         <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
@@ -62,5 +63,26 @@ export function Sidebar() {
         </Button>
       </div>
     </aside>
+
+    <aside className="w-full h-16 bg-card border-t border-border fixed left-0 bottom-0 flex md:hidden z-20 shadow-2xl">
+      <nav className="flex-1 px-4 py-2 flex justify-around items-center">
+        {navItems.map((item) => (
+          <Link key={item.href} href={item.href}>
+            <div
+              className={cn(
+                "flex flex-col items-center justify-center gap-1 px-2 py-1 rounded-lg transition-all duration-200 cursor-pointer group hover:bg-white/5",
+                location === item.href
+                  ? "bg-primary/10 text-primary font-medium"
+                  : "text-muted-foreground hover:text-foreground"
+              )}
+            >
+              <item.icon className={cn("w-5 h-5", location === item.href ? "text-primary" : "text-muted-foreground group-hover:text-foreground")} />
+              <span className="text-xs">{item.label}</span>
+            </div>
+          </Link>
+        ))}
+      </nav>
+    </aside>
+    </>
   );
 }

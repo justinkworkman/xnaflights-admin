@@ -25,7 +25,8 @@ export function ImageForm({ defaultValues, onSubmit, isSubmitting }: ImageFormPr
       airport: defaultValues?.airport || "CDG",
       airline: defaultValues?.airline || "Air France",
       backgroundSize: defaultValues?.backgroundSize || "150",
-      background: defaultValues?.background || "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=2000&auto=format&fit=crop"
+      background: defaultValues?.background || "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=2000&auto=format&fit=crop",
+      size: "1080x1080",
     },
     mode: "onBlur",
   });
@@ -122,6 +123,19 @@ export function ImageForm({ defaultValues, onSubmit, isSubmitting }: ImageFormPr
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Background Size</FormLabel>
+                <FormControl>
+                  <Input type="text" {...field} value={field.value ?? ""} onChange={(e) => field.onChange(e.target.value)} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+           <FormField
+            control={form.control}
+            name="size"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Image Size</FormLabel>
                 <FormControl>
                   <Input type="text" {...field} value={field.value ?? ""} onChange={(e) => field.onChange(e.target.value)} />
                 </FormControl>

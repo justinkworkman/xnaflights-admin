@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Loader2 } from "lucide-react";
+import { Link2 } from "lucide-react";
 
 const formSchema = insertDealSchema.extend({
   originalPrice: z.coerce.number().optional(),
@@ -184,7 +185,7 @@ export function DealForm({ defaultValues, onSubmit, isSubmitting }: DealFormProp
           name="imageUrl"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Image URL (Unsplash)</FormLabel>
+              <FormLabel>Image URL (Unsplash) <Link2 className="w-4 h-4 inline ml-1" onClick={() => window.open(field.value.replace('696525', ''), '_blank')}></Link2></FormLabel>
               <FormControl>
                 <Input placeholder="https://images.unsplash.com/..." {...field} />
               </FormControl>
@@ -198,7 +199,7 @@ export function DealForm({ defaultValues, onSubmit, isSubmitting }: DealFormProp
           name="bookingLink"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Booking URL</FormLabel>
+              <FormLabel>Booking URL <Link2 className="w-4 h-4 inline ml-1" onClick={() => window.open(field.value.replace('696525', ''), '_blank')}/></FormLabel>
               <FormControl>
                 <Input placeholder="https://airline.com/book..." {...field} />
               </FormControl>

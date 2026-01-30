@@ -41,7 +41,7 @@ export default function ActiveDeals() {
   const [search, setSearch] = useState("");
 
   const filteredDeals = deals?.filter(deal =>
-    deal.isActive && (
+    deal.isActive && new Date(deal.departureDate) > new Date() && (
     deal.destination.toLowerCase().includes(search.toLowerCase()) ||
     deal.description?.toLowerCase().includes(search.toLowerCase()) ||
     deal.airline?.toLowerCase().includes(search.toLowerCase()) ||

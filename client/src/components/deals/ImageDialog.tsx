@@ -35,18 +35,21 @@ export function ImageDialog({ mode, deal, trigger }: ImageDialogProps) {
             title: values.title,
             eyebrow: values.eyebrow,
             background: values.background,
+            airline: deal.airline,
             airport: deal.airport,
             price: deal.price,
             dates: `${new Date(deal.departureDate).toLocaleDateString('en-US', {month: 'short', day:'numeric'})} - ${new Date(deal.returnDate).toLocaleDateString('en-US', {month: 'short', day:'numeric'})}`,
             backgroundSize: values.backgroundSize,
         }
-        await fetch('/api/create-social-card', {
+        const fres = await fetch('/api/create-social-card', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify(postBody),
         });
+        const response = await fres.json();
+        window.open(response?.url, '_blank');
       }
       setOpen(false);
     } catch (error) {

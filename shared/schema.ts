@@ -35,6 +35,7 @@ export type DealImage = {
   dates: string;
   airport: string;
   airline?: string;
+  size?: string;
 };
 
 export type Deal = typeof deals.$inferSelect;

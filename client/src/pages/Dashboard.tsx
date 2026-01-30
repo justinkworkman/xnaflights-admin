@@ -38,6 +38,7 @@ export default function Dashboard() {
   const { data: deals, isLoading, error } = useDeals();
   const deleteDeal = useDeleteDeal();
   const [search, setSearch] = useState("");
+  const [selectedDealIds, setSelectedDealIds] = useState<number[]>([]);
   const [sortKey, setSortKey] = useState<string | null>(null);
   const [sortDir, setSortDir] = useState<'asc' | 'desc' | 'none'>('none');
 
@@ -60,7 +61,8 @@ export default function Dashboard() {
     deal.destination.toLowerCase().includes(search.toLowerCase()) ||
     deal.description?.toLowerCase().includes(search.toLowerCase()) ||
     deal.airline?.toLowerCase().includes(search.toLowerCase()) ||
-    deal.id?.toString().includes(search.toLowerCase())
+    deal.id?.toString().includes(search.toLowerCase()) ||
+    deal.departureDate.toLowerCase().includes(search.toLowerCase())
   );
 
   const sortedDeals = (() => {
@@ -79,6 +81,9 @@ export default function Dashboard() {
       } else if (sortKey === 'status') {
         cmp = (a.isActive ? 1 : 0) - (b.isActive ? 1 : 0);
       }
+      else if (sortKey === 'departureDate') {
+        cmp = new Date(a.departureDate).getTime() - new Date(b.departureDate).getTime();
+      }
       return sortDir === 'asc' ? cmp : -cmp;
     });
     return copy;
@@ -92,8 +97,18 @@ export default function Dashboard() {
   };
 
   const handleReport = () => {
-    console.log("Generating report...");
-    // Future integration
+     //export to json
+    const selectedDeals = deals?.filter(deal => selectedDealIds.includes(deal.id)).map(d => ({...d, percentage: d.originalPrice ? Math.round((1 - (d.price / d.originalPrice)) * 100) : 0}));
+    console.log(selectedDeals);
+    const json = JSON.stringify(selectedDeals, ["destination", "price", "airline", "originalPrice", "departureDate", "returnDate", "percentage"], 2);
+    const blob = new Blob([json], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "selected-deals.json";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
   };
 
   return (
@@ -157,6 +172,20 @@ export default function Dashboard() {
               <TableHeader className="bg-muted/30">
                 <TableRow className="hover:bg-transparent border-border">
                   <TableHead>
+                    
+                     <input
+                      type="checkbox" 
+                      className="h-4 w-4 rounded border-border bg-background focus-ring-primary/20" 
+                      checked={selectedDealIds.length === (deals?.length || 0)}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setSelectedDealIds(deals ? deals.map(deal => deal.id) : []);
+                        } else {
+                          setSelectedDealIds([]);
+                        }
+                      }}
+                    />
+                    
                     <button onClick={() => toggleSort('dealInfo')} className="flex items-center gap-2">
                       Deal Info
                       <ChevronUp className="w-4 h-4 text-muted-foreground" />
@@ -185,6 +214,13 @@ export default function Dashboard() {
                     </button>
                   </TableHead>
                   <TableHead>
+                    <button onClick={() => toggleSort('departureDate')} className="flex items-center gap-2">
+                      Departure Date
+                      <ChevronUp className="w-4 h-4 text-muted-foreground" />
+                      {sortKey === 'departureDate' && (sortDir === 'asc' ? <span>▲</span> : <span>▼</span>)}
+                    </button>
+                  </TableHead>
+                  <TableHead>
                     <button onClick={() => toggleSort('status')} className="flex items-center gap-2">
                       Status
                       <ChevronUp className="w-4 h-4 text-muted-foreground" />
@@ -199,6 +235,18 @@ export default function Dashboard() {
                   <TableRow key={deal.id} className="border-border hover:bg-muted/10 transition-colors">
                     <TableCell>
                       <div className="flex items-center gap-3">
+                        <input
+                          type="checkbox" 
+                          className="h-4 w-4 rounded border-border bg-background focus-ring-primary/20" 
+                          checked={selectedDealIds.includes(deal.id)}
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              setSelectedDealIds([...selectedDealIds, deal.id]);
+                            } else {
+                              setSelectedDealIds(selectedDealIds.filter(id => id !== deal.id));
+                            }
+                          }}
+                        />
                         <div className="w-10 h-10 rounded-lg bg-muted/50 overflow-hidden shrink-0">
                            {/* Using Unsplash for fallback logic if needed, but mainly relying on input */}
                            <img
@@ -230,6 +278,13 @@ export default function Dashboard() {
                       <div className="flex flex-col">
                         <span className="font-bold text-primary">
                           {deal.price/deal.originalPrice ? Math.round((1 - (deal.price / deal.originalPrice)) * 100) : 0}% Off
+                        </span>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex flex-col">
+                        <span className="font-bold text-primary">
+                          {deal.departureDate}
                         </span>
                       </div>
                     </TableCell>
