@@ -67,7 +67,7 @@ export function ImageForm({ defaultValues, onSubmit, isSubmitting }: ImageFormPr
               <FormItem>
                 <FormLabel>Airline</FormLabel>
                 <FormControl>
-                  <Input placeholder="e.g. Air France" {...field} value={field.value ?? ""} />
+                  <Input placeholder="e.g. Air France" {...field} value={field.value ?? ""} onChange={(e) => field.onChange(e.target.value)} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -110,7 +110,7 @@ export function ImageForm({ defaultValues, onSubmit, isSubmitting }: ImageFormPr
               <FormItem>
                 <FormLabel>Dates</FormLabel>
                 <FormControl>
-                  <Input type="text" {...field} value={field.value ?? ""} />
+                  <Input type="text" {...field} value={field.value ?? ""} onChange={(e) => field.onChange(e.target.value)} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -123,7 +123,7 @@ export function ImageForm({ defaultValues, onSubmit, isSubmitting }: ImageFormPr
               <FormItem>
                 <FormLabel>Background Size</FormLabel>
                 <FormControl>
-                  <Input type="text" {...field} value={field.value ?? ""} />
+                  <Input type="text" {...field} value={field.value ?? ""} onChange={(e) => field.onChange(e.target.value)} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -140,7 +140,7 @@ export function ImageForm({ defaultValues, onSubmit, isSubmitting }: ImageFormPr
               <FormItem>
                 <FormLabel>Background Image URL</FormLabel>
                 <FormControl>
-                  <Input type="text" {...field} value={field.value ?? ""} />
+                  <Input type="text" {...field} value={field.value ?? ""} onChange={(e) => field.onChange(e.target.value)} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

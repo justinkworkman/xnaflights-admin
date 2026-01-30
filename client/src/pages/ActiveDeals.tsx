@@ -67,7 +67,7 @@ export default function ActiveDeals() {
         {/* Header */}
         <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
           <div>
-            <h1 className="text-3xl font-display font-bold">Flight Deals</h1>
+            <h1 className="text-3xl font-display font-bold">Flight Deals - {filteredDeals?.length || 0} active</h1>
             <p className="text-muted-foreground mt-1">Manage current offers and promotions</p>
           </div>
           <div className="flex items-center gap-3">
