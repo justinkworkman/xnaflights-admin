@@ -9,6 +9,8 @@ import { insertDealSchema } from "@shared/schema";
 import { useForm } from "react-hook-form";
 import { Loader2 } from "lucide-react";
 import { Link2 } from "lucide-react";
+import { get } from "http";
+import { date } from "drizzle-orm/mysql-core";
 
 interface ExplorerFormProps {
   defaultValues?: Partial<FormValues>;
@@ -39,6 +41,15 @@ export function ExplorerForm({ defaultValues, onSubmit, isSubmitting }: Explorer
     },
     mode: "onBlur",
   });
+
+  function getSearchUrl() {
+    const destination = form.getValues().destination || "";
+    const dateDeparture = new Date(form.getValues().departureDate);
+    const departureDate = (dateDeparture.getDate() + 1).toString().padStart(2, '0') + (dateDeparture.getMonth() + 1).toString().padStart(2, '0');
+    const dateReturn = new Date(form.getValues().returnDate);
+    const returnDate =  (dateReturn.getDate() + 1).toString().padStart(2, '0') + (dateReturn.getMonth() + 1).toString().padStart(2, '0');
+    return `https://www.aviasales.com/search/XNA${departureDate}${destination}${returnDate}`;
+  }
 
   return (
     <Form {...form}>
@@ -89,6 +100,10 @@ export function ExplorerForm({ defaultValues, onSubmit, isSubmitting }: Explorer
 
         </div>
         <div className="flex justify-end gap-3 pt-4">
+          <Button variant="outline" type="button" onClick={() => { window.open(getSearchUrl(), "_blank"); }} className="w-full md:w-auto">
+            <Link2 className="w-4 h-4 mr-2" />
+            Search
+          </Button>
           <Button type="submit" disabled={isSubmitting} className="w-full md:w-auto bg-primary hover:bg-primary/90 text-primary-foreground font-semibold">
             {isSubmitting ? (
               <>
