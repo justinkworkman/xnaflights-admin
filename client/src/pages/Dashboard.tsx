@@ -127,6 +127,7 @@ export default function Dashboard() {
         "airline",
         "originalPrice",
         "departureDate",
+        "imageUrl",
         "returnDate",
         "percentage"
       ],
