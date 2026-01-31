@@ -8,7 +8,21 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Loader2 } from "lucide-react";
-import { Link2 } from "lucide-react";
+import { Link2,Search } from "lucide-react";
+
+function UnsplashFinder({ destination }: { destination: string }) {
+  const handleSearch = () => {
+    const query = destination || "travel destination";
+    const url = `https://unsplash.com/s/photos/${encodeURIComponent(query)}`;
+    window.open(url, "_blank");
+  };
+
+  return (
+    
+      <Search className="w-4 h-4 mr-2 cursor-pointer" onClick={handleSearch} />
+    
+  );
+}
 
 const formSchema = insertDealSchema.extend({
   originalPrice: z.coerce.number().optional(),
@@ -179,13 +193,16 @@ export function DealForm({ defaultValues, onSubmit, isSubmitting }: DealFormProp
             </FormItem>
           )}
         />
+        { 
+          /* a control to hit the unsplash api and search for destination images */
 
+        }
         <FormField
           control={form.control}
           name="imageUrl"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Image URL (Unsplash) <Link2 className="w-4 h-4 inline ml-1" onClick={() => window.open(field.value.replace('696525', ''), '_blank')}></Link2></FormLabel>
+              <FormLabel style={{display: "flex"}}>Image URL (Unsplash) <span style={{marginLeft: "0.5rem",display:"inline-flex"}}><UnsplashFinder destination={form.getValues("destination")} />  <Link2 className="w-4 h-4 inline ml-1" onClick={() => window.open(field.value.replace('696525', ''), '_blank')}></Link2></span></FormLabel> 
               <FormControl>
                 <Input placeholder="https://images.unsplash.com/..." {...field} />
               </FormControl>
@@ -193,7 +210,6 @@ export function DealForm({ defaultValues, onSubmit, isSubmitting }: DealFormProp
             </FormItem>
           )}
         />
-
         <FormField
           control={form.control}
           name="bookingLink"
